@@ -1,14 +1,22 @@
-const express = require("express"); // Importa o módulo express, que é um framework para criar nossa API REST.
+//O arquivo app.js é o ponto de entrada da aplicação, ele configura a aplicação Express.
+//Aqui define as rotas e middlewares e exporta a aplicação para ser usada em outros arquivos do projeto.
 
-const app = express(); //Cria a instância do express, que será usada para definir as rotas e middlewares da nossa API.
+const express = require("express"); // Importa o framework Express.
 
-app.use(express.json()); // Permite que a API receba dados em JSON
+const productRoutes = require("./routes/productRoutes"); // Importa as rotas do módulo Products.
 
-// Rota de teste
-app.get("/", (req, res) => { // Define uma rota GET na raiz da API, que responde com uma mensagem de teste.
+const app = express(); // Cria a aplicação Express, é o objeto principal que representa a API e será usado para configurar rotas, middlewares e outras funcionalidades.
+
+app.use(express.json()); //Permite que a API receba dados no formato JSON, converte o corpo da requisição em um objeto JavaScript.
+
+//Rota de teste
+app.get("/", (req, res) => { //req é o objeto que representa a requisição HTTP, res é o objeto de resposta HTTP que será enviada de volta ao cliente.
     res.json({
         message: "API Lista de Compras funcionando!"
     });
 });
 
-module.exports = app; // Exporta a instância do express para que ela possa ser usada em outros arquivos do projeto.
+// Registra as rotas de produtos.
+app.use("/products", productRoutes);
+
+module.exports = app; // Exporta a aplicação para o arquivo server.js, que é responsável por iniciar o servidor e escutar as requisições HTTP.
