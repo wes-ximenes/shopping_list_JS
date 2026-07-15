@@ -7,5 +7,6 @@ const productController = require("../controllers/productController"); //importa
 const router = express.Router(); //Cria a instância do roteador, que será usada para definir as rotas relacionadas aos produtos.
 
 router.get("/", productController.getAllProducts); //Define a rota GET /products, que será usada para buscar todos os produtos cadastrados no banco de dados.
+router.post("/", productController.createProduct); //Define a rota POST /products, que será usada para criar um novo produto.
 
 module.exports = router; //Exporta o roteador para que ele possa ser usado em outros arquivos do projeto.
