@@ -28,9 +28,32 @@ async function createProduct(data) {
     return product;
 }
 
+//(PATCH) Função assíncrona responsável por atualizar um produto existente.
+async function updateProduct(id, data) {
 
-//Exportando a função getAllProducts e createProduct para que elas possam ser usadas em outros arquivos do projeto.
+    //Desestrutura o objeto recebido.
+    const { name, display_order } = data;
+
+    //Verifica se o nome foi informado.
+    if (!name) {
+        throw new Error("O nome do produto é obrigatório.");
+    }
+
+    //Chama o model para atualizar o produto.
+    const product = await productModel.update(id, name, display_order);
+
+    //Verifica se o produto existe.
+    if (!product) {
+        throw new Error("Produto não encontrado.");
+    }
+
+    //Retorna o produto atualizado.
+    return product;
+}
+
+//Exportando a função getAllProducts, createProduct e updateProduct para que elas possam ser usadas em outros arquivos do projeto.
 module.exports = {
     getAllProducts,
     createProduct,
+    updateProduct,
 };

@@ -17,7 +17,7 @@ async function getAllProducts(req, res) { //req é o objeto que representa a req
     }
 }
 
-// (POST) Função assíncrona responsável por cadastrar um novo produto.
+//(POST) Função assíncrona responsável por cadastrar um novo produto.
 async function createProduct(req, res) {
 
     try {
@@ -37,9 +37,34 @@ async function createProduct(req, res) {
 
 }
 
+//(PATCH) Função assíncrona responsável por atualizar um produto existente.
+async function updateProduct(req, res) {
+
+    try {
+
+        //Captura o ID enviado pela URL.
+        const { id } = req.params; //req.params contém os parâmetros da URL, que são passados para a função updateProduct do service.
+
+        //Chama a camada de service passando o ID e os dados enviados no body.
+        const updatedProduct = await productService.updateProduct(id, req.body);
+
+        //Retorna HTTP 200 com o produto atualizado.
+        return res.status(200).json(updatedProduct);
+
+    } catch (error) {
+
+        return res.status(400).json({
+            message: error.message,
+        });
+
+    }
+
+}
+
 
 //Exportando a função getAllProducts para que ela possa ser usada em outros arquivos do projeto.
 module.exports = {
     getAllProducts,
     createProduct,
+    updateProduct,
 };

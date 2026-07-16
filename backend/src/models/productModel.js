@@ -30,8 +30,27 @@ async function create(name, displayOrder = 0) {
     return result.rows[0];
 }
 
+// (PATCH) Função assíncrona que atualiza um produto existente no banco de dados.
+async function update(id, name, displayOrder) {
+    const query = `
+        UPDATE products
+        SET
+            name = $1,
+            display_order = $2
+        WHERE id = $3
+        RETURNING *;
+    `;
+
+    const values = [name, displayOrder, id];
+
+    const result = await pool.query(query, values);
+
+    return result.rows[0];
+}
+
 // Exporta a função findAll para que ela possa ser usada em outros arquivos do projeto, permitindo que outras partes do código possam buscar todos os produtos no banco de dados.
 module.exports = {
     findAll,
     create,
+    update,
 };

@@ -8,5 +8,7 @@ const router = express.Router(); //Cria a instância do roteador, que será usad
 
 router.get("/", productController.getAllProducts); //Define a rota GET /products, que será usada para buscar todos os produtos cadastrados no banco de dados.
 router.post("/", productController.createProduct); //Define a rota POST /products, que será usada para criar um novo produto.
+router.patch("/:id", productController.updateProduct); //Define a rota PATCH /products/:id, que será usada para atualizar um produto existente.
+//Onde :id é um parâmetro de rota que representa o ID do produto a ser atualizado.
 
 module.exports = router; //Exporta o roteador para que ele possa ser usado em outros arquivos do projeto.
