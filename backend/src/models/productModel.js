@@ -30,7 +30,7 @@ async function create(name, displayOrder = 0) {
     return result.rows[0];
 }
 
-// (PATCH) Função assíncrona que atualiza um produto existente no banco de dados.
+//(PATCH) Função assíncrona que atualiza um produto existente no banco de dados.
 async function update(id, name, displayOrder) {
     const query = `
         UPDATE products
@@ -48,9 +48,26 @@ async function update(id, name, displayOrder) {
     return result.rows[0];
 }
 
-// Exporta a função findAll para que ela possa ser usada em outros arquivos do projeto, permitindo que outras partes do código possam buscar todos os produtos no banco de dados.
+//(DELETE) Função assíncrona que remove um produto do banco de dados.
+async function remove(id) {
+
+    const query = `
+        DELETE FROM products
+        WHERE id = $1
+        RETURNING *;
+    `;
+
+    const values = [id];
+
+    const result = await pool.query(query, values);
+
+    return result.rows[0];
+}
+
+//Exporta a função findAll para que ela possa ser usada em outros arquivos do projeto, permitindo que outras partes do código possam buscar todos os produtos no banco de dados.
 module.exports = {
     findAll,
     create,
     update,
+    remove
 };

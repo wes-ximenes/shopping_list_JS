@@ -10,5 +10,7 @@ router.get("/", productController.getAllProducts); //Define a rota GET /products
 router.post("/", productController.createProduct); //Define a rota POST /products, que será usada para criar um novo produto.
 router.patch("/:id", productController.updateProduct); //Define a rota PATCH /products/:id, que será usada para atualizar um produto existente.
 //Onde :id é um parâmetro de rota que representa o ID do produto a ser atualizado.
+router.delete("/:id", productController.deleteProduct); //Define a rota DELETE /products/:id, que será usada para remover um produto que já existe no DB.
+//Onde :id é o parâmetro de rota que representa o ID do produto que tem que ser removido.
 
 module.exports = router; //Exporta o roteador para que ele possa ser usado em outros arquivos do projeto.

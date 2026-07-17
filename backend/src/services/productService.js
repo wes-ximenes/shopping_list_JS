@@ -51,9 +51,25 @@ async function updateProduct(id, data) {
     return product;
 }
 
+//(DELETE) Função assíncrona responsável por remover um produto existente.
+async function deleteProduct(id) {
+
+    //Chama o model para remover o produto.
+    const product = await productModel.remove(id);
+
+    //Verifica se o produto existe.
+    if (!product) {
+        throw new Error("Produto não encontrado.");
+    }
+
+    //Retorna o produto removido.
+    return product;
+}
+
 //Exportando a função getAllProducts, createProduct e updateProduct para que elas possam ser usadas em outros arquivos do projeto.
 module.exports = {
     getAllProducts,
     createProduct,
     updateProduct,
+    deleteProduct
 };

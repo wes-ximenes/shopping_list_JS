@@ -61,10 +61,35 @@ async function updateProduct(req, res) {
 
 }
 
+//(DELETE) Função assíncrona responsável por remover um produto existente.
+async function deleteProduct(req, res) {
+
+    try {
+
+        //Captura o ID enviado pela URL.
+        const { id } = req.params;
+
+        //Chama a camada de service passando o ID do produto.
+        await productService.deleteProduct(id);
+
+        //Retorna HTTP 204 (No Content), indicando que o produto foi removido com sucesso.
+        return res.sendStatus(204);
+
+    } catch (error) {
+
+        return res.status(404).json({
+            message: error.message,
+        });
+
+    }
+
+}
+
 
 //Exportando a função getAllProducts para que ela possa ser usada em outros arquivos do projeto.
 module.exports = {
     getAllProducts,
     createProduct,
     updateProduct,
+    deleteProduct
 };
