@@ -64,10 +64,23 @@ async function remove(id) {
     return result.rows[0];
 }
 
+//(PATCH)Função assíncrona que reordena os produtos após a exclusão de um produto, ajustando a ordem de exibição dos produtos restantes.
+async function reorderAfterDelete(displayOrder) {
+
+    const query = `
+        UPDATE products
+        SET display_order = display_order - 1
+        WHERE display_order > $1;
+    `; //Esse SQL atualiza a coluna display_order de todos os produtos que possuem um display_order maior que o do produto excluído, diminuindo em 1 o valor de display_order desses produtos.
+
+    await pool.query(query, [displayOrder]);
+}
+
 //Exporta a função findAll para que ela possa ser usada em outros arquivos do projeto, permitindo que outras partes do código possam buscar todos os produtos no banco de dados.
 module.exports = {
     findAll,
     create,
     update,
-    remove
+    remove,
+    reorderAfterDelete
 };

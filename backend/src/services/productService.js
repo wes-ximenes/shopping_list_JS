@@ -62,6 +62,9 @@ async function deleteProduct(id) {
         throw new Error("Produto não encontrado.");
     }
 
+    //Chama o model para reordenar os produtos após a exclusão.
+    await productModel.reorderAfterDelete(product.display_order);
+
     //Retorna o produto removido.
     return product;
 }
