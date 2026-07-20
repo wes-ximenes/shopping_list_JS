@@ -3,9 +3,10 @@
 
 const express = require("express"); // Importa o framework Express.
 
-const productRoutes = require("./routes/productRoutes"); // Importa as rotas do módulo Products.
+const productRoutes = require("./routes/productRoutes"); //Importa as rotas do módulo Products.
+const shoppingListRoutes = require("./routes/shoppingListRoutes"); //Importa as rotas do módulo Shopping Lists.
 
-const app = express(); // Cria a aplicação Express, é o objeto principal que representa a API e será usado para configurar rotas, middlewares e outras funcionalidades.
+const app = express(); //Cria a aplicação Express, é o objeto principal que representa a API e será usado para configurar rotas, middlewares e outras funcionalidades.
 
 app.use(express.json()); //Permite que a API receba dados no formato JSON, converte o corpo da requisição em um objeto JavaScript.
 
@@ -16,7 +17,10 @@ app.get("/", (req, res) => { //req é o objeto que representa a requisição HTT
     });
 });
 
-// Registra as rotas de produtos.
+//Registra as rotas de produtos.
 app.use("/products", productRoutes);
 
-module.exports = app; // Exporta a aplicação para o arquivo server.js, que é responsável por iniciar o servidor e escutar as requisições HTTP.
+//Registra as rotas de listas de compras.
+app.use("/shopping-lists", shoppingListRoutes);
+
+module.exports = app; //Exporta a aplicação para o arquivo server.js, que é responsável por iniciar o servidor e escutar as requisições HTTP.
