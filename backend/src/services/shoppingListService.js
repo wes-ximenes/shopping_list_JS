@@ -10,6 +10,14 @@ async function createShoppingList() {
     return shoppingList;
 }
 
+//(GET) Busca todas as listas de compras.
+async function getAllShoppingLists() {
+    const shoppingLists = await shoppingListModel.findAll();
+
+    return shoppingLists;
+}
+
 module.exports = {
-    createShoppingList
+    createShoppingList,
+    getAllShoppingLists
 };

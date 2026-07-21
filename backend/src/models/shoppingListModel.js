@@ -15,6 +15,20 @@ async function create() {
     return result.rows[0];
 }
 
+//(GET) Busca todas as listas de compras cadastradas.
+async function findAll() {
+    const query = `
+        SELECT *
+        FROM shopping_lists
+        ORDER BY created_at DESC;
+    `;
+
+    const result = await pool.query(query);
+
+    return result.rows;
+}
+
 module.exports = {
-    create
+    create,
+    findAll
 };

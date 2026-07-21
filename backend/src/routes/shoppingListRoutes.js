@@ -9,5 +9,8 @@ const router = express.Router();
 //(POST) endpoint para criar uma nova lista de compras.
 router.post("/", shoppingListController.createShoppingList);
 
+//(GET) Endpoint para listar todas as listas de compras.
+router.get("/", shoppingListController.getAllShoppingLists);
+
 //Exporta o router para ser usado em outros arquivos do projeto, como o app.js, onde as rotas são registradas na aplicação Express.
 module.exports = router;
