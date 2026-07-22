@@ -17,7 +17,17 @@ async function getAllShoppingLists(req, res) {
     return res.status(200).json(shoppingLists);
 }
 
+//(PATCH) Finaliza uma lista de compras.
+async function finishShoppingList(req, res) {
+    const { id } = req.params; //req.params é um objeto que contém os parâmetros da rota, neste caso, o id da lista de compras a ser finalizada.
+
+    const shoppingList = await shoppingListService.finishShoppingList(id);
+
+    return res.status(200).json(shoppingList);
+}
+
 module.exports = {
     createShoppingList,
-    getAllShoppingLists
+    getAllShoppingLists,
+    finishShoppingList
 };

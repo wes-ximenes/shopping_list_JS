@@ -17,7 +17,15 @@ async function getAllShoppingLists() {
     return shoppingLists;
 }
 
+//(PATCH) Finaliza uma lista de compras.
+async function finishShoppingList(id) {
+    const shoppingList = await shoppingListModel.finish(id);
+
+    return shoppingList;
+}
+
 module.exports = {
     createShoppingList,
-    getAllShoppingLists
+    getAllShoppingLists,
+    finishShoppingList
 };

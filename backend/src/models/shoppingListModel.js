@@ -28,7 +28,22 @@ async function findAll() {
     return result.rows;
 }
 
+//(PATCH) Finaliza uma lista de compras, será a função acionada no botão de finalizar lista de compras no front-end.
+async function finish(id) {
+    const query = `
+        UPDATE shopping_lists
+        SET finished_at = CURRENT_TIMESTAMP
+        WHERE id = $1
+        RETURNING *;
+    `;
+
+    const result = await pool.query(query, [id]);
+
+    return result.rows[0];
+}
+
 module.exports = {
     create,
-    findAll
+    findAll,
+    finish
 };
