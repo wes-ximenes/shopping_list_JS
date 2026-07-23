@@ -19,6 +19,22 @@ async function createShoppingListItem(data) {
     return shoppingListItem;
 }
 
+//(GET) Busca todos os itens de uma lista de compras.
+async function getShoppingListItems(shoppingListId) {
+
+    //Valida se o ID da lista foi informado
+    if (!shoppingListId) {
+        throw new Error("shoppingListId é obrigatório.");
+    }
+
+    //Busca os itens da lista no banco de dados
+    const shoppingListItems =
+        await shoppingListItemModel.findByShoppingListId(shoppingListId);
+
+    return shoppingListItems;
+}
+
 module.exports = {
     createShoppingListItem,
+    getShoppingListItems
 };
