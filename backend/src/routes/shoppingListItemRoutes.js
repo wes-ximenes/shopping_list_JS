@@ -10,4 +10,7 @@ router.post("/", shoppingListItemController.createShoppingListItem);
 //GET /shopping-list-items/:shoppingListId (rota para buscar todos os itens de uma lista de compras específica).
 router.get( "/:shoppingListId", shoppingListItemController.getShoppingListItems);
 
+//PATCH /shopping-list-items/:id (Rota para atualizar o status de compra de um item da lista)
+router.patch("/:id", shoppingListItemController.updatePurchased);
+
 module.exports = router;

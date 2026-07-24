@@ -44,7 +44,35 @@ async function getShoppingListItems(req, res) {
 
 }
 
+//(PATCH) Atualiza o status de compra de um item da lista.
+async function updatePurchased(req, res) {
+
+    try {
+
+        //Obtém o ID enviado na URL.
+        const { id } = req.params;
+
+        //Obtém o valor de purchased enviado no body.
+        const { purchased } = req.body;
+
+        //Chama o Service para atualizar o item.
+        const shoppingListItem =
+            await shoppingListItemService.updatePurchased(id, purchased);
+
+        res.status(200).json(shoppingListItem);
+
+    } catch (error) {
+
+        res.status(400).json({
+            error: error.message
+        });
+
+    }
+
+}
+
 module.exports = {
     createShoppingListItem,
-    getShoppingListItems
+    getShoppingListItems,
+    updatePurchased
 };

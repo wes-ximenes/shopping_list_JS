@@ -40,7 +40,25 @@ async function findByShoppingListId(shoppingListId) {
     return result.rows;
 }
 
+//(PATCH) Atualiza o status de compra de um item da lista (purchased=true/false)
+async function updatePurchased(id, purchased) {
+
+    const query = `
+        UPDATE shopping_list_items
+        SET purchased = $1
+        WHERE id = $2
+        RETURNING *;
+    `; //SET altera o purchased para true ou false | WHERE id = $2 garante que apenas o item com o ID que for passado seja atualizado.
+
+    const values = [purchased, id];
+
+    const result = await pool.query(query, values);
+
+    return result.rows[0];
+}
+
 module.exports = {
     create,
-    findByShoppingListId
+    findByShoppingListId,
+    updatePurchased
 };

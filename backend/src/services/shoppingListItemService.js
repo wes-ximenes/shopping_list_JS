@@ -34,7 +34,28 @@ async function getShoppingListItems(shoppingListId) {
     return shoppingListItems;
 }
 
+//(PATCH) Atualiza o status de compra de um item da lista.
+async function updatePurchased(id, purchased) {
+
+    //Valida se o ID foi informado.
+    if (!id) {
+        throw new Error("id é obrigatório.");
+    }
+
+    //Valida se o campo purchased foi informado.
+    if (purchased === undefined) {
+        throw new Error("purchased é obrigatório.");
+    }
+
+    //Chama o model para atualizar o item no banco de dados.
+    const shoppingListItem =
+        await shoppingListItemModel.updatePurchased(id, purchased);
+
+    return shoppingListItem;
+}
+
 module.exports = {
     createShoppingListItem,
-    getShoppingListItems
+    getShoppingListItems,
+    updatePurchased
 };
