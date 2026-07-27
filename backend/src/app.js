@@ -2,6 +2,7 @@
 //Aqui define as rotas e middlewares e exporta a aplicação para ser usada em outros arquivos do projeto.
 
 const express = require("express"); // Importa o framework Express.
+const cors = require("cors"); //Importa o middleware CORS, que permite que o frontend acesse a API mesmo estando em domínios diferentes.
 
 const productRoutes = require("./routes/productRoutes"); //Importa as rotas do módulo Products.
 const shoppingListRoutes = require("./routes/shoppingListRoutes"); //Importa as rotas do módulo Shopping Lists.
@@ -9,6 +10,7 @@ const shoppingListItemRoutes = require("./routes/shoppingListItemRoutes"); //Imp
 
 const app = express(); //Cria a aplicação Express, é o objeto principal que representa a API e será usado para configurar rotas, middlewares e outras funcionalidades.
 
+app.use(cors()); //Permite que o frontend acesse a API mesmo estando em domínios diferentes.
 app.use(express.json()); //Permite que a API receba dados no formato JSON, converte o corpo da requisição em um objeto JavaScript.
 
 //Rota de teste
