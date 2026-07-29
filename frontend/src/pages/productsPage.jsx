@@ -34,6 +34,8 @@ function ProductsPage() {
       }); //(POST) Aqui usamos o axios para fazer uma requisição POST para o backend, enviando o nome do novo produto que o usuário digitou no input.
 
       await loadProducts(); //Chamamos a função loadProducts para atualizar a lista de produtos cadastrados no sistema, para que o novo produto seja exibido na interface do usuário sem precisar F5.
+      
+      setNewProduct(""); //setNewProduct("") para limpar o input depois que o usuário cadastrar um novo produto.
 
       console.log("Produto cadastrado com sucesso!");
     } catch (error) {
@@ -45,7 +47,7 @@ function ProductsPage() {
     loadProducts(); //Usamos useEffect para executar a funções quando a página é carregada, para que os produtos cadastrados no sistema sejam exibidos na interface do usuário.
   }, []);
 
-  
+
   //INTERFACE
   return (
   <div>
