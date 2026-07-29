@@ -27,6 +27,15 @@ function ProductsPage() {
   
   //POST
   async function createProduct() {
+
+    //Verificação para impedir que o usuário cadastre um produto com nome vazio ou apenas com espaços em branco.
+    //trim() é um método que remove os espaços em branco do início e do final de uma string.
+    //Se o nome do produto for vazio ou apenas com espaços em branco, o usuário vai receber um alerta pedindo para digitar o nome do produto.
+    if (newProduct.trim() === "") {
+      alert("Digite o nome do produto.");
+      return;
+    }
+
     try {
       await axios.post("http://localhost:3000/products", {
         name: newProduct,
