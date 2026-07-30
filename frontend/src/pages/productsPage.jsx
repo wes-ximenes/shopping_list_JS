@@ -13,6 +13,10 @@ function ProductsPage() {
   const [newProduct, setNewProduct] = useState(""); //(POST) Variável de estado newProduct, que é uma string vazia. 
   //Essa variável vai armazenar o nome do novo produto que o usuário vai cadastrar no sistema.
 
+  const [editingProductId, setEditingProductId] = useState(null); //(PATCH) Variável de estado editingProductId, que é null.
+  //Essa variável vai armazenar o id do produto que o usuário está editando no sistema.
+
+  
   //GET
   async function loadProducts() {
     try {
@@ -25,6 +29,7 @@ function ProductsPage() {
     }
   }
   
+
   //POST
   async function createProduct() {
 
@@ -57,6 +62,41 @@ function ProductsPage() {
   }, []);
 
 
+  //PATCH
+  async function updateProduct() {
+    if (newProduct.trim() === "") { //Verificação para impedir que o usuário renomeie um produto com nome vazio ou apenas com espaços em branco.
+      alert("Digite o nome do produto.");
+      return;
+    }
+
+    try {
+
+      //Aqui usamos o find para encontrar o produto que o usuário está editando, usando o id do produto que está armazenado na variável editingProductId.
+      const product = products.find(
+        (product) => product.id === editingProductId
+      );
+
+      await axios.patch( //O axios faz uma requisição PATCH para o backend, enviando o nome do produto que o usuário digitou no input, e o id do produto que ele está editando.
+        `http://localhost:3000/products/${editingProductId}`,
+        {
+          name: newProduct, //Aqui enviamos o nome do produto que o usuário digitou no input, para que o backend atualize o nome do produto no banco de dados.
+          display_order: product.display_order, //Enviamos o display_order do produto que o usuário está editando, para que o backend não altere a ordem de exibição dos produtos cadastrados no sistema.
+        }
+      );
+      
+      //loadProducts para atualizar a lista de produtos, pro produto editado ser exibido na interface do usuário sem precisar F5.
+      await loadProducts(); //
+
+      setNewProduct("");
+      setEditingProductId(null); //Limpa a variável editingProductId, para que o botão de cadastro volte a mostrar "Cadastrar" ao invés de "Salvar".
+
+      console.log("Produto atualizado com sucesso!");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
   //INTERFACE
   return (
   <div>
@@ -68,11 +108,35 @@ function ProductsPage() {
       onChange={(event) => setNewProduct(event.target.value)} //diz pro react que quando o usuário digitar algo no input, o valor digitado vai ser atualizado e armazenado na variável newProduct.
       placeholder="Nome do produto" //placeholder é o texto que aparece dentro do input quando ele está vazio, para dar uma dica pro usuário do que ele deve digitar.
     />
-    <button onClick={createProduct}>Cadastrar</button>
 
-    {products.map((product) => (
+    {/* BOTÃO DE CADASTRO/EDIÇÃO
+    -Se existir um id de produto armazenado na variável editingProductId, significa que estamos editando um produto, então o botão vai mostrar "Salvar" e a função updateProduct() vai ser chamada,
+    caso contrário, vai mostrar "Cadastrar" e a função createProduct() vai ser chamada.
+    */}
+    <button
+      onClick={() => {
+        if (editingProductId) {
+          updateProduct();
+        } else {
+          createProduct();
+        }
+      }}
+    >
+      {editingProductId ? "Salvar" : "Cadastrar"}
+    </button>
+
+    {products.map((product) => ( //Aqui usamos o map para percorrer o array de produtos cadastrados no sistema, e para cada produto, vamos criar um elemento <div> com o nome do produto e um botão de editar.
       <div key={product.id}>
         {product.name}
+
+        <button
+          onClick={() => { //Quando o usuário clicar no botão de editar, vamos atualizar a variável newProduct com o nome do produto que ele quer editar, e atualizar a variável editingProductId com o id do produto que ele quer editar.
+            setNewProduct(product.name);
+            setEditingProductId(product.id);
+          }}
+        >
+          Editar
+        </button>
       </div>
     ))}
   </div>
