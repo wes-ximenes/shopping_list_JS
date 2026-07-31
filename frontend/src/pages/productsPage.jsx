@@ -97,6 +97,27 @@ function ProductsPage() {
   }
 
 
+  //DELETE
+  async function deleteProduct(id) {
+
+    //!window.confirm é uma função que exibe uma confirmação ao usuário se ele realmente deseja excluir o produto, ele sempre retorna um valor booleano, true se clicar em "OK" e false se ele clicar em "Cancelar".
+    if (!window.confirm("Deseja realmente excluir esse produto?")) {
+      return;
+    }
+
+    try {
+      await axios.delete(`http://localhost:3000/products/${id}`); //axios.delete faz uma requisição DELETE para o backend, enviando o id do produto que o usuário quer excluir do sistema.
+
+      //Atualiza a lista para remover o produto da tela sem precisar dar F5.
+      await loadProducts();
+
+      console.log("Produto excluído com sucesso!");
+    } catch (error) {
+        console.error(error);
+      }
+  }
+
+
   //INTERFACE
   return (
   <div>
@@ -136,6 +157,11 @@ function ProductsPage() {
           }}
         >
           Editar
+        </button>
+
+        <button 
+          onClick={() => deleteProduct(product.id)}>
+          Excluir
         </button>
       </div>
     ))}
