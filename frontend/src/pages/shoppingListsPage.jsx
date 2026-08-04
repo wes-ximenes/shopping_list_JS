@@ -24,6 +24,20 @@ function ShoppingListsPage() {
     }
   }
 
+
+  //POST
+  async function createShoppingList() {
+    try {
+        await axios.post("http://localhost:3000/shopping-lists");//axios para faz uma requisição POST para o backend, criando uma nova lista de compras no backend.
+
+        //Recarrega a lista após criar uma nova.
+        await loadShoppingLists();
+
+    } catch (error) {
+        console.error(error);
+    }
+  }
+
   //useEffect para carregar as listas de compras quando a página é carregada.
   useEffect(() => {
     loadShoppingLists();
@@ -34,6 +48,10 @@ function ShoppingListsPage() {
   return (
     <div>
         <h1>Listas de Compras</h1>
+
+        <button onClick={createShoppingList}>
+        Nova Lista
+        </button>
 
         {shoppingLists.map((shoppingList) => ( //map para percorrer o array shoppingLists, e exibir cada lista de compras cadastrada no sistema.
         <div key={shoppingList.id}>
