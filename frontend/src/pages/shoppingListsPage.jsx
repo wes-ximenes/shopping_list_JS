@@ -38,6 +38,20 @@ function ShoppingListsPage() {
     }
   }
 
+
+  //PATCH
+  async function finishShoppingList(id) {
+    try {
+        await axios.patch(`http://localhost:3000/shopping-lists/${id}/finish`);//axios para faz uma requisição PATCH para o backend, finalizando a lista de compras no backend.
+
+        //Aguarda a finalização da lista e recarrega a lista de compras.
+        await loadShoppingLists();
+
+    } catch (error) {
+        console.error("Erro ao finalizar lista:", error);
+    }
+  }
+
   //useEffect para carregar as listas de compras quando a página é carregada.
   useEffect(() => {
     loadShoppingLists();
@@ -53,21 +67,29 @@ function ShoppingListsPage() {
         Nova Lista
         </button>
 
-        {shoppingLists.map((shoppingList) => ( //map para percorrer o array shoppingLists, e exibir cada lista de compras cadastrada no sistema.
-        <div key={shoppingList.id}>
-            <p>ID: {shoppingList.id}</p>
-            <p>
-                Criada em:{" "}
-                {new Date(shoppingList.created_at).toLocaleString("pt-BR")}
-            </p>
-            <p>
-                Finalizada em:{" "}
-                {shoppingList.finished_at
-                    ? new Date(shoppingList.finished_at).toLocaleString("pt-BR")
-                    : "Em andamento"}
-            </p>
-        </div>
-        ))}
+        {shoppingLists.map((shoppingList) => ( //map para percorrer o array de listas de compras e renderizar cada uma delas na tela.
+            <div key={shoppingList.id}>
+                <p>ID: {shoppingList.id}</p>
+
+                <p>
+                    Criada em:{" "}
+                    {new Date(shoppingList.created_at).toLocaleString("pt-BR")}
+                </p>
+
+                <p>
+                    Finalizada em:{" "}
+                    {shoppingList.finished_at
+                        ? new Date(shoppingList.finished_at).toLocaleString("pt-BR")
+                        : "Em andamento"}
+                </p>
+
+                {!shoppingList.finished_at && (
+                    <button onClick={() => finishShoppingList(shoppingList.id)}>
+                        Finalizar Lista
+                    </button>
+                )}
+            </div>
+))}
     </div>
     );
 }
