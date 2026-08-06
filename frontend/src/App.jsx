@@ -10,6 +10,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import ProductsPage from "./pages/ProductsPage";
 import ShoppingListsPage from "./pages/ShoppingListsPage";
+import ShoppingListItemsPage from "./pages/ShoppingListItemsPage";
 import Navbar from "./components/Navbar";
 import { Navigate } from "react-router-dom";
 //Navigate é um componente do React Router que permite redirecionar o usuário para outra rota da aplicação.
@@ -26,6 +27,10 @@ function App() {
                 <Route
                     path="/shopping-lists"
                     element={<ShoppingListsPage />}
+                />
+                <Route
+                    path="/shopping-lists/:shoppingListId"
+                    element={<ShoppingListItemsPage />}
                 />
             </Routes>
 

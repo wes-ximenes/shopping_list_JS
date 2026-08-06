@@ -4,12 +4,14 @@
 import { useEffect, useState } from "react"; //useEffect é um hook do React que permite executar "gatilhos" em componentes funcionais. 
 //useState é um hook do React que permite criar variáveis de estado em componentes funcionais.
 import axios from "axios"; //axios corresponde a API, faz requisições HTTP para o backend, como GET, POST, PATCH e DELETE.
+import { useNavigate } from "react-router-dom"; //useNavigate é um hook do React Router que permite navegar entre diferentes páginas da aplicação sem precisar recarregar a página inteira.
 
 //Função principal.
 function ShoppingListsPage() {
   const [shoppingLists, setShoppingLists] = useState([]); //shoppingLists guarda as listas do backend, setShoppingLists atualiza o valor de shoppingLists.
     
-  
+  const navigate = useNavigate();//navigate permite navegar entre diferentes páginas da aplicação sem precisar recarregar a página inteira.
+
   //GET
   async function loadShoppingLists() {
     try {
@@ -82,6 +84,14 @@ function ShoppingListsPage() {
                         ? new Date(shoppingList.finished_at).toLocaleString("pt-BR")
                         : "Em andamento"}
                 </p>
+
+                <button
+                    onClick={() =>
+                        navigate(`/shopping-lists/${shoppingList.id}`)
+                    }
+                >
+                    Abrir
+                </button>
 
                 {!shoppingList.finished_at && (
                     <button onClick={() => finishShoppingList(shoppingList.id)}>
