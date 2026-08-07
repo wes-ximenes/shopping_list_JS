@@ -67,6 +67,29 @@ function ShoppingListItemsPage() {
     }
 
 
+    //PATCH (comprado ou não comprado)
+    async function updatePurchased(id, purchased) {
+
+        try {
+
+            await axios.patch(
+                `http://localhost:3000/shopping-list-items/${id}`,
+                {
+                    purchased: purchased //Axios faz uma requisição PATCH para o backend, atualizando o status de compra de um item específico da lista de compras.
+                }
+            );
+
+            loadShoppingListItems();
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    }
+
+
     //useEffect para carregar os itens da lista de compras quando a página é carregada.
     useEffect(() => {
         loadShoppingListItems();
@@ -101,7 +124,17 @@ function ShoppingListItemsPage() {
             <h2>Produtos da Lista</h2>
             {shoppingListItems.map((item) => (
                 <div key={item.id}>
-                    {item.product_name}
+
+                    <input
+                        type="checkbox"
+                        checked={item.purchased}
+                        onChange={(e) =>
+                            updatePurchased(item.id, e.target.checked)
+                        }
+                    />
+
+                    <span>{item.product_name}</span>
+
                 </div>
             ))}
         </div>
